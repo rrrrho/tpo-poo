@@ -12,7 +12,7 @@ public class TrilateracionApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(TrilateracionApplication.class, args);
-		Circunferencia circunferenciaUno = new Circunferencia(new Coordenada(2, 4), 2);
+		Circunferencia circunferenciaUno = new Circunferencia(new Coordenada(100, 4), 2);
 		Circunferencia circunferenciaDos = new Circunferencia(new Coordenada(2, 4), 2);
 		Circunferencia circunferenciaTres = new Circunferencia(new Coordenada(3, 0), Math.sqrt(5));
 

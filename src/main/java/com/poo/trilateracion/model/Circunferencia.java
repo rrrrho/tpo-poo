@@ -1,5 +1,8 @@
 package com.poo.trilateracion.model;
 
+import com.poo.trilateracion.exceptions.CircunferenciasNoSeTocanException;
+import com.poo.trilateracion.exceptions.RadioNuloException;
+import com.poo.trilateracion.exceptions.CircunferenciasIgualesException;
 import lombok.AllArgsConstructor;
 
 import java.util.ArrayList;
@@ -11,14 +14,34 @@ public class Circunferencia {
     private Coordenada centro;
     private double radio;
 
+    private static final String CIRCUNFERENCIAS_IGUALES_ERROR = "ERROR: Las circunferencias se encuentran en " +
+            "la misma posicion. Posicion: (%.1f, %.1f)";
+    private static final String RADIO_NULO_ERROR = "ERROR: Hay una circunferencia con radio nulo. C1: %.1f - C2: %.1f.";
+    private static final String CIRCUNFERENCIAS_NO_SE_TOCAN_ERROR = "ERROR: No hay interseccion entre las " +
+            "circunferencias. C1: (%.1f, %.1f) - C2: (%.1f, %.1f)";
+
     // entra r2
     public List<Coordenada> calcularInterseccion(Circunferencia circunferencia) {
+        if (this.radio == 0 || circunferencia.radio == 0) {
+            throw new RadioNuloException(String.format(RADIO_NULO_ERROR, this.radio, circunferencia.radio));
+        }
+
         // vector cuya norma es la distancia entre ambos centros
         Vector w = new Vector(circunferencia.centro.getX() - this.centro.getX(),
                 circunferencia.centro.getY() - this.centro.getY());
 
+        if (vectorEsNulo(w)) {
+            throw new CircunferenciasIgualesException
+                    (String.format(CIRCUNFERENCIAS_IGUALES_ERROR, this.centro.getX(), this.centro.getY()));
+        }
+
         // calculo dicha distancia
         double distancia = Math.sqrt(Math.pow(w.getX(), 2) + Math.pow(w.getY(), 2));
+
+        if (distancia > (this.radio + circunferencia.radio)) {
+            throw new CircunferenciasNoSeTocanException(String.format(CIRCUNFERENCIAS_NO_SE_TOCAN_ERROR,
+                    this.centro.getX(), this.centro.getY(), circunferencia.centro.getX(), circunferencia.centro.getY()));
+        }
 
         // calculo la distancia desde c1 hasta donde deberia pasar la recta interseccion
         double x = (Math.pow(circunferencia.radio, 2) - Math.pow(distancia, 2) - Math.pow(this.radio, 2))
@@ -49,5 +72,9 @@ public class Circunferencia {
         Coordenada interseccionDos = new Coordenada(n.getX() + g.getX(), n.getY() + g.getY());
 
        return new ArrayList<Coordenada>(Arrays.asList(interseccionUno, interseccionDos));
+    }
+
+    private boolean vectorEsNulo(Vector vector) {
+        return vector.getX() == 0 && vector.getY() == 0;
     }
 }
