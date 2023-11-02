@@ -1,9 +1,9 @@
 package com.poo.trilateracion.model;
 
 import com.poo.trilateracion.exceptions.CircuferenciaDentroDeOtraException;
+import com.poo.trilateracion.exceptions.CircunferenciasIgualesException;
 import com.poo.trilateracion.exceptions.CircunferenciasNoSeTocanException;
 import com.poo.trilateracion.exceptions.RadioNuloException;
-import com.poo.trilateracion.exceptions.CircunferenciasIgualesException;
 import lombok.AllArgsConstructor;
 
 import java.util.ArrayList;
@@ -12,18 +12,14 @@ import java.util.List;
 
 @AllArgsConstructor
 public class Circunferencia {
-    private Coordenada centro;
-    private double radio;
-
     private static final String CIRCUNFERENCIAS_IGUALES_ERROR = "ERROR: Las circunferencias se encuentran en " +
             "la misma posicion. Posicion: (%.1f, %.1f)";
     private static final String RADIO_NULO_ERROR = "ERROR: Hay una circunferencia con radio nulo. C1: %.1f - C2: %.1f.";
     private static final String CIRCUNFERENCIAS_NO_SE_TOCAN_ERROR = "ERROR: No hay interseccion entre las " +
             "circunferencias. C1: (%.1f, %.1f) - C2: (%.1f, %.1f)";
-
     private static final String CIRCUFERENCIA_DENTRO_DE_OTRA_ERROR = "ERROR: Hay una circunferencia dentro de otra";
-
-
+    private Coordenada centro;
+    private double radio;
 
     // entra r2
     public List<Coordenada> calcularInterseccion(Circunferencia circunferencia) {
@@ -46,7 +42,7 @@ public class Circunferencia {
         double radioMasGrande = Math.max(this.radio, circunferencia.radio);
         double radioMasChico = Math.min(this.radio, circunferencia.radio);
 
-        if(distancia < (radioMasGrande - radioMasChico)){
+        if (distancia < (radioMasGrande - radioMasChico)) {
             throw new CircuferenciaDentroDeOtraException(CIRCUFERENCIA_DENTRO_DE_OTRA_ERROR);
         }
 
@@ -83,7 +79,7 @@ public class Circunferencia {
         Coordenada interseccionUno = new Coordenada(n.getX() + h.getX(), n.getY() + h.getY());
         Coordenada interseccionDos = new Coordenada(n.getX() + g.getX(), n.getY() + g.getY());
 
-       return new ArrayList<Coordenada>(Arrays.asList(interseccionUno, interseccionDos));
+        return new ArrayList<>(Arrays.asList(interseccionUno, interseccionDos));
     }
 
     private boolean vectorEsNulo(Vector vector) {
