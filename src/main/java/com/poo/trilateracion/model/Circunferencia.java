@@ -1,5 +1,6 @@
 package com.poo.trilateracion.model;
 
+import com.poo.trilateracion.exceptions.CircuferenciaDentroDeOtraException;
 import com.poo.trilateracion.exceptions.CircunferenciasNoSeTocanException;
 import com.poo.trilateracion.exceptions.RadioNuloException;
 import com.poo.trilateracion.exceptions.CircunferenciasIgualesException;
@@ -20,6 +21,10 @@ public class Circunferencia {
     private static final String CIRCUNFERENCIAS_NO_SE_TOCAN_ERROR = "ERROR: No hay interseccion entre las " +
             "circunferencias. C1: (%.1f, %.1f) - C2: (%.1f, %.1f)";
 
+    private static final String CIRCUFERENCIA_DENTRO_DE_OTRA_ERROR = "ERROR: Hay una circunferencia dentro de otra";
+
+
+
     // entra r2
     public List<Coordenada> calcularInterseccion(Circunferencia circunferencia) {
         if (this.radio == 0 || circunferencia.radio == 0) {
@@ -37,6 +42,13 @@ public class Circunferencia {
 
         // calculo dicha distancia
         double distancia = Math.sqrt(Math.pow(w.getX(), 2) + Math.pow(w.getY(), 2));
+
+        double radioMasGrande = Math.max(this.radio, circunferencia.radio);
+        double radioMasChico = Math.min(this.radio, circunferencia.radio);
+
+        if(distancia < (radioMasGrande - radioMasChico)){
+            throw new CircuferenciaDentroDeOtraException(CIRCUFERENCIA_DENTRO_DE_OTRA_ERROR);
+        }
 
         if (distancia > (this.radio + circunferencia.radio)) {
             throw new CircunferenciasNoSeTocanException(String.format(CIRCUNFERENCIAS_NO_SE_TOCAN_ERROR,
