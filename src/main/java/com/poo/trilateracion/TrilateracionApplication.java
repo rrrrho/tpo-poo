@@ -31,8 +31,8 @@ public class TrilateracionApplication {
         Handler handler = new Handler();
 
         System.out.println(handler.descifrarMensaje(new ArrayList<>(Arrays.asList("bienvenidos", "a", "", "orientada", "al", "")),
-                new ArrayList<>(Arrays.asList("", "bienvenidos", "a", "", "orientada", "al", "objeto")),
-                new ArrayList<>(Arrays.asList("bienvenidos", "", "programacion", "", "", ""))));
+                new ArrayList<>(Arrays.asList("bienvenidos", "a","", "", "orientada", "al", "objeto")),
+                new ArrayList<>(Arrays.asList("", "bienvenidos", "", "programacion", "", "", ""))));
     }
 
 }

@@ -5,28 +5,36 @@ import java.util.List;
 
 public class Handler {
     public List<String> descifrarMensaje(List<String> m1, List<String> m2, List<String> m3) {
-        int longitudFinalCandidato = Math.min(m1.size(), m2.size());
-        int longitudFinal = Math.min(longitudFinalCandidato, m3.size());
         List<String> resultado = new ArrayList<>();
-
-        if (m1.size() > longitudFinal) {
-            if (!m1.get(0).equals("")) {
-                throw new RuntimeException("la cantidad de palabras no coincide");
-            }
+        int longitudFinal;
+        if(m1.get(0).isBlank() && m2.get(0).isBlank() && m3.get(0).isBlank()){
             m1.remove(0);
-        }
-        if (m2.size() > longitudFinal) {
-            if (!m2.get(0).equals("")) {
-                throw new RuntimeException("la cantidad de palabras no coincide");
-            }
             m2.remove(0);
-        }
-        if (m3.size() > longitudFinal) {
-            if (!m3.get(0).equals("")) {
-                throw new RuntimeException("la cantidad de palabras no coincide");
-            }
             m3.remove(0);
+            longitudFinal = m1.size();
+        } else {
+            int longitudFinalCandidato = Math.min(m1.size(), m2.size());
+            longitudFinal = Math.min(longitudFinalCandidato, m3.size());
+            if (m1.size() > longitudFinal) {
+                if (!m1.get(0).equals("")) {
+                    throw new RuntimeException("la cantidad de palabras no coincide");
+                }
+                m1.remove(0);
+            }
+            if (m2.size() > longitudFinal) {
+                if (!m2.get(0).equals("")) {
+                    throw new RuntimeException("la cantidad de palabras no coincide");
+                }
+                m2.remove(0);
+            }
+            if (m3.size() > longitudFinal) {
+                if (!m3.get(0).equals("")) {
+                    throw new RuntimeException("la cantidad de palabras no coincide");
+                }
+                m3.remove(0);
+            }
         }
+
 
         if (m1.size() != longitudFinal || m2.size() != longitudFinal || m3.size() != longitudFinal) {
             throw new RuntimeException("al menos un mensaje tiene palabras de mas :(");
