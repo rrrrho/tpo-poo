@@ -1,22 +1,37 @@
-package com.poo.trilateracion.model;
+package com.poo.trilateracion.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.poo.trilateracion.dto.TrilateracionRequest;
+import com.poo.trilateracion.dto.TrilateracionResponse;
 import com.poo.trilateracion.exceptions.*;
+import com.poo.trilateracion.model.Circunferencia;
+import com.poo.trilateracion.model.Coordenada;
+import com.poo.trilateracion.model.Vector;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-public class CircunferenciaHandler {
-    private static final String CIRCUNFERENCIAS_IGUALES_ERROR = "ERROR: Las circunferencias se encuentran en " +
+@Service
+public class CircunferenciaService {
+    @Autowired
+    private ObjectMapper mapper;
+
+    private static final String CIRCUNFERENCIAS_IGUALES_ERROR = "ERROR: Los satelites se encuentran en " +
             "la misma posicion. Posicion: (%.1f, %.1f)";
-    private static final String RADIO_NULO_ERROR = "ERROR: Hay una circunferencia con radio nulo. C1: %.1f - C2: %.1f.";
-    private static final String CIRCUNFERENCIAS_NO_SE_TOCAN_ERROR = "ERROR: No hay interseccion entre las " +
-            "circunferencias. C1: (%.1f, %.1f) - C2: (%.1f, %.1f)";
-    private static final String CIRCUFERENCIA_DENTRO_DE_OTRA_ERROR = "ERROR: Hay una circunferencia dentro de otra";
-    private static final String NO_EXISTE_INTERSECCION_COMUN_ERROR = "ERROR: No hay una interseccion entre las tres " +
-            "circunferencias";
-    private static List<Coordenada> calcularInterseccion(Circunferencia c1, Circunferencia c2) {
+    private static final String RADIO_NULO_ERROR = "ERROR: Hay un satelite con distancia nula. C1: %.1f - C2: %.1f.";
+    private static final String CIRCUNFERENCIAS_NO_SE_TOCAN_ERROR = "ERROR: Los alcances de los satelites no se " +
+            "intersectan. S1: (%.1f, %.1f) - S2: (%.1f, %.1f)";
+    private static final String CIRCUFERENCIA_DENTRO_DE_OTRA_ERROR = "ERROR: El alcance de un satelite se encuentra " +
+            "dentro de otro.";
+    private static final String NO_EXISTE_INTERSECCION_COMUN_ERROR = "ERROR: Las distancias no se hayan en un solo " +
+            "punto.";
+
+    private List<Coordenada> calcularInterseccion(Circunferencia c1, Circunferencia c2) {
         if (c1.getRadio() == 0 || c2.getRadio() == 0) {
             throw new RadioNuloException(String.format(RADIO_NULO_ERROR, c1.getRadio(), c2.getRadio()));
         }
@@ -76,27 +91,28 @@ public class CircunferenciaHandler {
         return new ArrayList<>(Arrays.asList(interseccionUno, interseccionDos));
     }
 
-    private static boolean vectorEsNulo(Vector vector) {
+    private boolean vectorEsNulo(Vector vector) {
         return vector.getX() == 0 && vector.getY() == 0;
     }
 
-    public static Coordenada encontrarPuntoFinal(Circunferencia c1, Circunferencia c2, Circunferencia c3){
-        List<Coordenada> interseccionesDosUno = calcularInterseccion(c2, c1);
-        List<Coordenada> interseccionesTresUno = calcularInterseccion(c3, c1);
-        List<Coordenada> interseccionesTresDos = calcularInterseccion(c3, c2);
+    public TrilateracionResponse encontrarPuntoFinal(TrilateracionRequest request) {
+        List<Circunferencia> circunferencias = request.getSatelites().stream().map(satelite ->
+            mapper.convertValue(satelite, Circunferencia.class)).collect(Collectors.toList());
+
+        List<Coordenada> interseccionesDosUno = calcularInterseccion(circunferencias.get(1), circunferencias.get(0));
+        List<Coordenada> interseccionesTresUno = calcularInterseccion(circunferencias.get(2), circunferencias.get(0));
+        List<Coordenada> interseccionesTresDos = calcularInterseccion(circunferencias.get(2), circunferencias.get(1));
 
         Optional<Coordenada> candidato = Optional.empty();
-        for(Coordenada c : interseccionesDosUno){
-            if(interseccionesTresUno.contains(c) && interseccionesTresDos.contains(c)){
+        for (Coordenada c : interseccionesDosUno) {
+            if (interseccionesTresUno.contains(c) && interseccionesTresDos.contains(c)) {
                 candidato = Optional.of(c);
             }
         }
-        if(candidato.isEmpty()){
+        if (candidato.isEmpty()) {
             throw new NoExisteInterseccionComunException(NO_EXISTE_INTERSECCION_COMUN_ERROR);
         }
-        return candidato.get();
 
+        return mapper.convertValue(candidato.get(), TrilateracionResponse.class);
     }
-
-
 }

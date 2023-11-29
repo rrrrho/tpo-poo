@@ -1,13 +1,17 @@
-package com.poo.trilateracion.model;
+package com.poo.trilateracion.service;
+
+import com.poo.trilateracion.dto.MensajeResponse;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Handler {
-    public List<String> descifrarMensaje(List<String> m1, List<String> m2, List<String> m3) {
+@Service
+public class MensajeService {
+    public MensajeResponse descifrarMensaje(List<String> m1, List<String> m2, List<String> m3) {
         List<String> resultado = new ArrayList<>();
         int longitudFinal;
-        if(m1.get(0).isBlank() && m2.get(0).isBlank() && m3.get(0).isBlank()){
+        if (m1.get(0).isBlank() && m2.get(0).isBlank() && m3.get(0).isBlank()) {
             m1.remove(0);
             m2.remove(0);
             m3.remove(0);
@@ -66,6 +70,6 @@ public class Handler {
                 resultado.add(palabra3);
             }
         }
-        return resultado;
+        return new MensajeResponse(resultado);
     }
 }
