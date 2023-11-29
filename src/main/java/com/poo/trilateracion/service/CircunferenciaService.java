@@ -17,7 +17,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class CircunferenciaService {
+public final class CircunferenciaService {
     @Autowired
     private ObjectMapper mapper;
 
@@ -32,36 +32,36 @@ public class CircunferenciaService {
             "punto.";
 
     private List<Coordenada> calcularInterseccion(Circunferencia c1, Circunferencia c2) {
-        if (c1.getRadio() == 0 || c2.getRadio() == 0) {
-            throw new RadioNuloException(String.format(RADIO_NULO_ERROR, c1.getRadio(), c2.getRadio()));
+        if (c1.radio() == 0 || c2.radio() == 0) {
+            throw new RadioNuloException(String.format(RADIO_NULO_ERROR, c1.radio(), c2.radio()));
         }
 
         // vector cuya norma es la distancia entre ambos centros
-        Vector w = new Vector(c2.getCentro().getX() - c1.getCentro().getX(),
-                c2.getCentro().getY() - c1.getCentro().getY());
+        Vector w = new Vector(c2.centro().getX() - c1.centro().getX(),
+                c2.centro().getY() - c1.centro().getY());
 
         if (vectorEsNulo(w)) {
             throw new CircunferenciasIgualesException
-                    (String.format(CIRCUNFERENCIAS_IGUALES_ERROR, c1.getCentro().getX(), c1.getCentro().getY()));
+                    (String.format(CIRCUNFERENCIAS_IGUALES_ERROR, c1.centro().getX(), c1.centro().getY()));
         }
 
         // calculo dicha distancia
         double distancia = Math.sqrt(Math.pow(w.getX(), 2) + Math.pow(w.getY(), 2));
 
-        double radioMasGrande = Math.max(c1.getRadio(), c2.getRadio());
-        double radioMasChico = Math.min(c1.getRadio(), c2.getRadio());
+        double radioMasGrande = Math.max(c1.radio(), c2.radio());
+        double radioMasChico = Math.min(c1.radio(), c2.radio());
 
         if (distancia < (radioMasGrande - radioMasChico)) {
             throw new CircuferenciaDentroDeOtraException(CIRCUFERENCIA_DENTRO_DE_OTRA_ERROR);
         }
 
-        if (distancia > (c1.getRadio() + c2.getRadio())) {
+        if (distancia > (c1.radio() + c2.radio())) {
             throw new CircunferenciasNoSeTocanException(String.format(CIRCUNFERENCIAS_NO_SE_TOCAN_ERROR,
-                    c1.getCentro().getX(), c1.getCentro().getY(), c2.getCentro().getX(), c2.getCentro().getY()));
+                    c1.centro().getX(), c1.centro().getY(), c2.centro().getX(), c2.centro().getY()));
         }
 
         // calculo la distancia desde c1 hasta donde deberia pasar la recta interseccion
-        double x = (Math.pow(c2.getRadio(), 2) - Math.pow(distancia, 2) - Math.pow(c1.getRadio(), 2))
+        double x = (Math.pow(c2.radio(), 2) - Math.pow(distancia, 2) - Math.pow(c1.radio(), 2))
                 / (-2 * distancia);
 
         // calculo el factor para poder achicar w hasta que la norma valga x
@@ -75,14 +75,14 @@ public class CircunferenciaService {
         Vector s = new Vector(u.getY(), -u.getX());
 
         // calculo el factor para poder achicar / agrandar z y s hasta que la norma llegue a las intersecciones
-        factor = (Math.sqrt(Math.pow(c1.getRadio(), 2) - Math.pow(x, 2))) / x;
+        factor = (Math.sqrt(Math.pow(c1.radio(), 2) - Math.pow(x, 2))) / x;
 
         // multiplico z y s por el factor resultante
         Vector h = new Vector(z.getX() * factor, z.getY() * factor);
         Vector g = new Vector(s.getX() * factor, s.getY() * factor);
 
         // obtengo un vector que parte del origen y termina donde termina u
-        Vector n = new Vector(u.getX() + c1.getCentro().getX(), u.getY() + c1.getCentro().getY());
+        Vector n = new Vector(u.getX() + c1.centro().getX(), u.getY() + c1.centro().getY());
 
         // calculo las intersecciones sumando n con h y g
         Coordenada interseccionUno = new Coordenada(n.getX() + h.getX(), n.getY() + h.getY());
@@ -96,7 +96,7 @@ public class CircunferenciaService {
     }
 
     public TrilateracionResponse encontrarPuntoFinal(TrilateracionRequest request) {
-        List<Circunferencia> circunferencias = request.getSatelites().stream().map(satelite ->
+        List<Circunferencia> circunferencias = request.satelites().stream().map(satelite ->
             mapper.convertValue(satelite, Circunferencia.class)).collect(Collectors.toList());
 
         List<Coordenada> interseccionesDosUno = calcularInterseccion(circunferencias.get(1), circunferencias.get(0));

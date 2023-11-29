@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class MensajeService {
+public final class MensajeService {
     public MensajeResponse descifrarMensaje(List<String> m1, List<String> m2, List<String> m3) {
         List<String> resultado = new ArrayList<>();
         int longitudFinal;
@@ -38,7 +38,6 @@ public class MensajeService {
                 m3.remove(0);
             }
         }
-
 
         if (m1.size() != longitudFinal || m2.size() != longitudFinal || m3.size() != longitudFinal) {
             throw new RuntimeException("al menos un mensaje tiene palabras de mas :(");

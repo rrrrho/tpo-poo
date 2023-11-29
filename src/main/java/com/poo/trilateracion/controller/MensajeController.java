@@ -18,6 +18,6 @@ public class MensajeController {
 
     @PostMapping("/topsecret")
     public ResponseEntity<MensajeResponse> descifrarMensaje(@RequestBody MensajeRequest request) {
-        return ResponseEntity.ok(mensajeService.descifrarMensaje(request.getM1(), request.getM2(), request.getM3()));
+        return ResponseEntity.ok(mensajeService.descifrarMensaje(request.m1(), request.m2(), request.m3()));
     }
 }

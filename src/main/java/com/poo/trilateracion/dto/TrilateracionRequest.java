@@ -1,34 +1,10 @@
 package com.poo.trilateracion.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import java.util.List;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
-public class TrilateracionRequest {
-    private List<Satelite> satelites;
+public record TrilateracionRequest(List<Satelite> satelites) {
 
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class Satelite {
-        private Coordenada centro;
-        private double radio;
-    }
+    public static record Satelite(Coordenada centro, double radio) { }
 
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class Coordenada {
-        private double x;
-        private double y;
-    }
+    public static record Coordenada(double x, double y) { }
 }
