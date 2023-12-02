@@ -11,18 +11,22 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleCircuferenciaDentroDeOtraException(CircuferenciaDentroDeOtraException exp) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exp.getMessage());
     }
+
     @ExceptionHandler(CircunferenciasIgualesException.class)
     public ResponseEntity<String> handleCircunferenciasIgualesException(CircunferenciasIgualesException exp) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exp.getMessage());
     }
+
     @ExceptionHandler(RadioNuloException.class)
     public ResponseEntity<String> handleRadioNuloException(RadioNuloException exp) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exp.getMessage());
     }
+
     @ExceptionHandler(NoExisteInterseccionComunException.class)
     public ResponseEntity<String> handleNoExisteInterseccionComunException(NoExisteInterseccionComunException exp) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exp.getMessage());
     }
+
     @ExceptionHandler(CircunferenciasNoSeTocanException.class)
     public ResponseEntity<String> handleCircunferenciasNoSeTocanException(CircunferenciasNoSeTocanException exp) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exp.getMessage());

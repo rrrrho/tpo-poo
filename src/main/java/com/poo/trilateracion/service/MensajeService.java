@@ -8,6 +8,13 @@ import java.util.List;
 
 @Service
 public final class MensajeService {
+    /**
+     * Recibe tres con desfasajes o errores mensajes y los completa en base a los otros
+     * @param m1 mensaje uno
+     * @param m2 mensaje dos
+     * @param m3 mensaje tres
+     * @return mensaje descifrado
+     */
     public MensajeResponse descifrarMensaje(List<String> m1, List<String> m2, List<String> m3) {
         List<String> resultado = new ArrayList<>();
         int longitudFinal;

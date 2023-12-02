@@ -8,6 +8,7 @@ public class TrilateracionApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(TrilateracionApplication.class, args);
+
     }
 
 }

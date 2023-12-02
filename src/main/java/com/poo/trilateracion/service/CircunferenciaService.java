@@ -18,9 +18,6 @@ import java.util.stream.Collectors;
 
 @Service
 public final class CircunferenciaService {
-    @Autowired
-    private ObjectMapper mapper;
-
     private static final String CIRCUNFERENCIAS_IGUALES_ERROR = "ERROR: Los satelites se encuentran en " +
             "la misma posicion. Posicion: (%.1f, %.1f)";
     private static final String RADIO_NULO_ERROR = "ERROR: Hay un satelite con distancia nula. C1: %.1f - C2: %.1f.";
@@ -30,7 +27,15 @@ public final class CircunferenciaService {
             "dentro de otro.";
     private static final String NO_EXISTE_INTERSECCION_COMUN_ERROR = "ERROR: Las distancias no se hayan en un solo " +
             "punto.";
+    @Autowired
+    private ObjectMapper mapper;
 
+    /**
+     *Recibe dos circunferencias y calcula las intersecciones entre estas
+     * @param c1 primera circunferencia
+     * @param c2 segunda circunferencia
+     * @return lista de coordenadas donde se encuentran las intersecciones
+     */
     private List<Coordenada> calcularInterseccion(Circunferencia c1, Circunferencia c2) {
         if (c1.radio() == 0 || c2.radio() == 0) {
             throw new RadioNuloException(String.format(RADIO_NULO_ERROR, c1.radio(), c2.radio()));
@@ -97,7 +102,7 @@ public final class CircunferenciaService {
 
     public TrilateracionResponse encontrarPuntoFinal(TrilateracionRequest request) {
         List<Circunferencia> circunferencias = request.satelites().stream().map(satelite ->
-            mapper.convertValue(satelite, Circunferencia.class)).collect(Collectors.toList());
+                mapper.convertValue(satelite, Circunferencia.class)).collect(Collectors.toList());
 
         List<Coordenada> interseccionesDosUno = calcularInterseccion(circunferencias.get(1), circunferencias.get(0));
         List<Coordenada> interseccionesTresUno = calcularInterseccion(circunferencias.get(2), circunferencias.get(0));
@@ -115,4 +120,6 @@ public final class CircunferenciaService {
 
         return mapper.convertValue(candidato.get(), TrilateracionResponse.class);
     }
+
+
 }
