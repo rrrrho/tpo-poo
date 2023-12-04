@@ -16,6 +16,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Servicio que realiza operaciones relacionadas con la trilateración utilizando circunferencias y coordenadas.
+ * Este servicio incluye métodos para calcular intersecciones entre circunferencias y encontrar el punto final
+ * de trilateración a partir de información de satélites.
+ */
 @Service
 public final class CircunferenciaService {
     private static final String CIRCUNFERENCIAS_IGUALES_ERROR = "ERROR: Los satelites se encuentran en " +
@@ -31,10 +36,15 @@ public final class CircunferenciaService {
     private ObjectMapper mapper;
 
     /**
-     *Recibe dos circunferencias y calcula las intersecciones entre estas
+     * Recibe dos circunferencias y calcula las intersecciones entre estas
+     *
      * @param c1 primera circunferencia
      * @param c2 segunda circunferencia
      * @return lista de coordenadas donde se encuentran las intersecciones
+     * @throws RadioNuloException                 si el radio de alguna de las circunferencias es cero.
+     * @throws CircunferenciasIgualesException    si las circunferencias tienen el mismo centro.
+     * @throws CircuferenciaDentroDeOtraException si una circunferencia está completamente contenida dentro de la otra.
+     * @throws CircunferenciasNoSeTocanException  si las circunferencias no tienen puntos de intersección.
      */
     private List<Coordenada> calcularInterseccion(Circunferencia c1, Circunferencia c2) {
         if (c1.radio() == 0 || c2.radio() == 0) {
@@ -96,10 +106,24 @@ public final class CircunferenciaService {
         return new ArrayList<>(Arrays.asList(interseccionUno, interseccionDos));
     }
 
+    /**
+     * Devuelve <code>true</code> si ambos valores x del vector es igual a 0
+     *
+     * @param vector vector a analizar
+     * @return <code>true</code> si y solo si ambos valores x, y del vector dado son igual a 0, <code>false</code>
+     * en caso contrario
+     */
     private boolean vectorEsNulo(Vector vector) {
         return vector.getX() == 0 && vector.getY() == 0;
     }
 
+    /**
+     * Encuentra el punto final de trilateración a partir de la información de los satélites.
+     *
+     * @param request la solicitud de trilateración que contiene la información de los satélites.
+     * @return una respuesta de trilateración que representa las coordenadas del punto final.
+     * @throws NoExisteInterseccionComunException si no se encuentra una intersección común entre las circunferencias.
+     */
     public TrilateracionResponse encontrarPuntoFinal(TrilateracionRequest request) {
         List<Circunferencia> circunferencias = request.satelites().stream().map(satelite ->
                 mapper.convertValue(satelite, Circunferencia.class)).collect(Collectors.toList());
@@ -117,7 +141,6 @@ public final class CircunferenciaService {
         if (candidato.isEmpty()) {
             throw new NoExisteInterseccionComunException(NO_EXISTE_INTERSECCION_COMUN_ERROR);
         }
-
         return mapper.convertValue(candidato.get(), TrilateracionResponse.class);
     }
 

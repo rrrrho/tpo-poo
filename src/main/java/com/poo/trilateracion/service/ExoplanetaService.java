@@ -1,17 +1,24 @@
 package com.poo.trilateracion.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.poo.trilateracion.dto.ExoplanetaResponse;
 import com.poo.trilateracion.model.ExoplanetasNombres;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
 
+/**
+ * Servicio que proporciona operaciones relacionadas con la generación de datos para exoplanetas.
+ * Este servicio incluye un método para generar de forma aleatoria el nombre, radio y masa de un exoplaneta.
+ */
 @Service
 public class ExoplanetaService {
 
-    public ExoplanetaResponse generarDatos(){
+    /**
+     * Genera los datos de forma aleatoria del exoplaneta (nombre, radio y masa)
+     *
+     * @return una instancia de <code>ExoplanetaResponse</code> con los datos aleatorios.
+     */
+    public ExoplanetaResponse generarDatos() {
         Random random = new Random();
         String nombre = ExoplanetasNombres.values()[random.nextInt(ExoplanetasNombres.values().length)].name();
         double radio = random.nextDouble() * 100;

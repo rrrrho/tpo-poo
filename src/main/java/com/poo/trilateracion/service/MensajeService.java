@@ -5,15 +5,24 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+/**
+ * Servicio que realiza operaciones relacionadas con el descifrado de mensajes.
+ * Este servicio incluye un método para recibir tres mensajes con desfasajes o errores,
+ * completarlos en base a los otros y generar un mensaje descifrado.
+ */
 
 @Service
 public final class MensajeService {
     /**
-     * Recibe tres con desfasajes o errores mensajes y los completa en base a los otros
-     * @param m1 mensaje uno
-     * @param m2 mensaje dos
-     * @param m3 mensaje tres
-     * @return mensaje descifrado
+     * Recibe tres con desfasajes o errores mensajes y los completa en base a los otros.
+     *
+     * @param m1 lista de String con el primer mensaje.
+     * @param m2 lista de String con el segundo mensaje.
+     * @param m3 lista de String con el tercer mensaje.
+     * @return una instancia de <code>MensajeResponse</code> con el mensaje descifrado.
+     * @throws RuntimeException si la cantidad de palabras en las los mensajes es diferente (sacando el desfasaje), si
+     *                          no se puede completar una parte del mensaje descifrado debido a que los 3 mensajes tienen esa posicion vacía o
+     *                          si hay una palabra diferente en la misma posición de los mensajes.
      */
     public MensajeResponse descifrarMensaje(List<String> m1, List<String> m2, List<String> m3) {
         List<String> resultado = new ArrayList<>();
@@ -55,13 +64,11 @@ public final class MensajeService {
             String palabra2 = m2.get(i);
             String palabra3 = m3.get(i);
             if (palabra1.isBlank() && palabra2.isBlank() && palabra3.isBlank()) {
-                //hacer una exception para este caso :)
                 throw new RuntimeException("no hay ninguna palabra");
             }
 
             if (!palabra1.equals(palabra2) && !(palabra1.isBlank() || palabra2.isBlank()) ||
                     !palabra2.equals(palabra3) && !(palabra2.isBlank() || palabra3.isBlank())) {
-                //hacer una exception para este caso :)
                 throw new RuntimeException("no coinciden las palabras :(");
             }
             if (!palabra1.equals("")) {
