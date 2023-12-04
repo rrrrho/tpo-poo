@@ -1,0 +1,350 @@
+{
+	"info": {
+		"_postman_id": "0e1c1900-5710-4f2a-bda2-53549cd35878",
+		"name": "tpo poo - coleccion de casos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18572323"
+	},
+	"item": [
+		{
+			"name": "descifrar mensaje - OK",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"m1\": [\"bienvenidos\", \"a\", \"\", \"orientada\", \"al\", \"\"],\r\n    \"m2\": [\"\", \"bienvenidos\", \"a\", \"\", \"orientada\", \"al\", \"objeto\"],\r\n    \"m3\": [\"\", \"bienvenidos\", \"\", \"programacion\", \"\", \"\", \"\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/mensaje/topsecret",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mensaje",
+						"topsecret"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "descifrar mensaje - exp. la cantidad de palabras no coinciden",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"m1\": [\"bienvenidos\", \"a\", \"\", \"orientada\", \"al\", \"\"],\r\n    \"m2\": [\"\", \"bienvenidos\", \"a\", \"\", \"orientada\", \"al\", \"objeto\", \"hola\"],\r\n    \"m3\": [\"\", \"bienvenidos\", \"\", \"programacion\", \"\", \"\", \"\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/mensaje/topsecret",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mensaje",
+						"topsecret"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "descifrar mensaje - exp. los tres mensajes contienen una interferencia en la misma posicion",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"m1\": [\"bienvenidos\", \"a\", \"\", \"\", \"al\", \"\"],\r\n    \"m2\": [\"\", \"bienvenidos\", \"a\", \"\", \"\", \"al\", \"objeto\"],\r\n    \"m3\": [\"\", \"bienvenidos\", \"\", \"programacion\", \"\", \"\", \"\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/mensaje/topsecret",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mensaje",
+						"topsecret"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "descifrar mensaje - exp. al menos dos entradas contienen una palabra diferente en la misma posicion",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"m1\": [\"bienvenidos\", \"a\", \"\", \"orientada\", \"al\", \"\"],\r\n    \"m2\": [\"\", \"bienvenidos\", \"a\", \"\", \"random\", \"al\", \"objeto\"],\r\n    \"m3\": [\"\", \"bienvenidos\", \"\", \"programacion\", \"\", \"\", \"\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/mensaje/topsecret",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mensaje",
+						"topsecret"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "exp - circunferencias iguales",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"satelites\": [\r\n        {\r\n            \"centro\": {\r\n                \"x\": 2,\r\n                \"y\": 2\r\n            },\r\n            \"radio\": 2\r\n        },\r\n        {\r\n            \"centro\": {\r\n                \"x\": 2,\r\n                \"y\": 2\r\n            },\r\n            \"radio\": 3\r\n        },\r\n        {\r\n            \"centro\": {\r\n                \"x\": 2,\r\n                \"y\": 4\r\n            },\r\n            \"radio\": 2\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/trilateracion",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"trilateracion"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "exp - circunferencia dentro de otra",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"satelites\": [\r\n        {\r\n            \"centro\": {\r\n                \"x\": 2,\r\n                \"y\": 1\r\n            },\r\n            \"radio\": 2\r\n        },\r\n        {\r\n            \"centro\": {\r\n                \"x\": 2,\r\n                \"y\": 2\r\n            },\r\n            \"radio\": 4\r\n        },\r\n        {\r\n            \"centro\": {\r\n                \"x\": 2,\r\n                \"y\": 9\r\n            },\r\n            \"radio\": 4\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/trilateracion",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"trilateracion"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "exp - circunferencia no intersecta con las demas",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"satelites\": [\r\n        {\r\n            \"centro\": {\r\n                \"x\": 9,\r\n                \"y\": 6\r\n            },\r\n            \"radio\": 2\r\n        },\r\n        {\r\n            \"centro\": {\r\n                \"x\": 2,\r\n                \"y\": 2\r\n            },\r\n            \"radio\": 4\r\n        },\r\n        {\r\n            \"centro\": {\r\n                \"x\": 2,\r\n                \"y\": 9\r\n            },\r\n            \"radio\": 4\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/trilateracion",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"trilateracion"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "exp - circunferencia con radio nulo",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"satelites\": [\r\n        {\r\n            \"centro\": {\r\n                \"x\": 9,\r\n                \"y\": 6\r\n            },\r\n            \"radio\": 0\r\n        },\r\n        {\r\n            \"centro\": {\r\n                \"x\": 2,\r\n                \"y\": 2\r\n            },\r\n            \"radio\": 4\r\n        },\r\n        {\r\n            \"centro\": {\r\n                \"x\": 2,\r\n                \"y\": 9\r\n            },\r\n            \"radio\": 4\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/trilateracion",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"trilateracion"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "exp - se intersecan todos pero no en un solo punto",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"satelites\": [\r\n        {\r\n            \"centro\": {\r\n                \"x\": 6,\r\n                \"y\": 6\r\n            },\r\n            \"radio\": 4\r\n        },\r\n        {\r\n            \"centro\": {\r\n                \"x\": 2,\r\n                \"y\": 2\r\n            },\r\n            \"radio\": 4\r\n        },\r\n        {\r\n            \"centro\": {\r\n                \"x\": 2,\r\n                \"y\": 9\r\n            },\r\n            \"radio\": 4\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/trilateracion",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"trilateracion"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "caso especial - dos circunferencias se tocan en un solo punto",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"satelites\": [\r\n        {\r\n            \"centro\": {\r\n                \"x\": 4,\r\n                \"y\": 6\r\n            },\r\n            \"radio\": 2\r\n        },\r\n        {\r\n            \"centro\": {\r\n                \"x\": 2,\r\n                \"y\": 2\r\n            },\r\n            \"radio\": 4\r\n        },\r\n        {\r\n            \"centro\": {\r\n                \"x\": 2,\r\n                \"y\": 10\r\n            },\r\n            \"radio\": 4\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/trilateracion",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"trilateracion"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "caso especial - las tres circunferencias se tocan en un solo punto",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"satelites\": [\r\n        {\r\n            \"centro\": {\r\n                \"x\": 2,\r\n                \"y\": 11\r\n            },\r\n            \"radio\": 5\r\n        },\r\n        {\r\n            \"centro\": {\r\n                \"x\": 2,\r\n                \"y\": 2\r\n            },\r\n            \"radio\": 4\r\n        },\r\n        {\r\n            \"centro\": {\r\n                \"x\": 2,\r\n                \"y\": 10\r\n            },\r\n            \"radio\": 4\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/trilateracion",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"trilateracion"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "caso normal - las tres circunferencias se tocan en un punto",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"satelites\": [\r\n        {\r\n            \"centro\": {\r\n                \"x\": 2,\r\n                \"y\": 2\r\n            },\r\n            \"radio\": 2.82842712474619009760337744841939615713\r\n        },\r\n        {\r\n            \"centro\": {\r\n                \"x\": 4,\r\n                \"y\": 2\r\n            },\r\n            \"radio\": 2\r\n        },\r\n        {\r\n            \"centro\": {\r\n                \"x\": 6,\r\n                \"y\": 4\r\n            },\r\n            \"radio\": 2\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/trilateracion",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"trilateracion"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

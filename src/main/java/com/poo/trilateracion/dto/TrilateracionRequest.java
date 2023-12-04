@@ -4,9 +4,8 @@ import java.util.List;
 
 /**
  * Record que representa una request de trilateración, incluyendo una lista de satélites.
- *  *
- *  * @param satelites Lista de satélites con los que se hará la trilateración.
- *
+ * *
+ * * @param satelites Lista de satélites con los que se hará la trilateración.
  */
 
 public record TrilateracionRequest(List<Satelite> satelites) {

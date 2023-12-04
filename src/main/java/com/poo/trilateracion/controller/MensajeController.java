@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * Controller que maneja las requests relacionadas con mensajes.
  * Se encarga de descifrar mensajes recibidos a través de la ruta "/mensaje/topsecret".
@@ -28,6 +30,7 @@ public class MensajeController {
      */
     @PostMapping("/topsecret")
     public ResponseEntity<MensajeResponse> descifrarMensaje(@RequestBody MensajeRequest request) {
-        return ResponseEntity.ok(mensajeService.descifrarMensaje(request.m1(), request.m2(), request.m3()));
+        List<String> mensaje = mensajeService.descifrarMensaje(request.m1(), request.m2(), request.m3());
+        return ResponseEntity.ok(new MensajeResponse(mensaje));
     }
 }

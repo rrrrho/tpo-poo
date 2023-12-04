@@ -1,8 +1,14 @@
 package com.poo.trilateracion.model;
+
+import lombok.Getter;
+
+import java.util.Objects;
+
 /**
  * Clase final que representa una coordenada.
  * La coordenada tiene componentes x e y y hereda de la clase abstracta Tupla.
  */
+@Getter
 public final class Coordenada extends Tupla {
     public Coordenada(double x, double y) {
         super(x, y);
@@ -16,12 +22,17 @@ public final class Coordenada extends Tupla {
      * @return <code>true</code> si el objeto dado representa una coordena equivalente a <code>false</code> en caso
      * contrario
      */
+
     @Override
     public boolean equals(Object o) {
+        double EPSILON = 1e-10;
+
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Coordenada coordenada = (Coordenada) o;
-        return coordenada.getX() == this.getX() && coordenada.getY() == this.getY();
+        return Math.abs(coordenada.getX() - this.getX()) < EPSILON &&
+                Math.abs(coordenada.getY() - this.getY()) < EPSILON;
     }
 
     /**

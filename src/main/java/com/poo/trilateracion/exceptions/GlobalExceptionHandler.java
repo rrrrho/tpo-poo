@@ -31,4 +31,19 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleCircunferenciasNoSeTocanException(CircunferenciasNoSeTocanException exp) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exp.getMessage());
     }
+
+    @ExceptionHandler(CantidadDePalabrasNoCoincidenException.class)
+    public ResponseEntity<String> handleCantidadDePalabrasNoCoincidenException(CantidadDePalabrasNoCoincidenException exp) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exp.getMessage());
+    }
+
+    @ExceptionHandler(MensajeIncompletoException.class)
+    public ResponseEntity<String> handleMensajeIncompletoException(MensajeIncompletoException exp) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exp.getMessage());
+    }
+
+    @ExceptionHandler(MensajeDiferenteException.class)
+    public ResponseEntity<String> handleMensajeDiferenteException(MensajeDiferenteException exp) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exp.getMessage());
+    }
 }

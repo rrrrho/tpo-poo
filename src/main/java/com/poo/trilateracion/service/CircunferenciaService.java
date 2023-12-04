@@ -1,20 +1,15 @@
 package com.poo.trilateracion.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.poo.trilateracion.dto.TrilateracionRequest;
-import com.poo.trilateracion.dto.TrilateracionResponse;
 import com.poo.trilateracion.exceptions.*;
 import com.poo.trilateracion.model.Circunferencia;
 import com.poo.trilateracion.model.Coordenada;
 import com.poo.trilateracion.model.Vector;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Servicio que realiza operaciones relacionadas con la trilateración utilizando circunferencias y coordenadas.
@@ -32,8 +27,6 @@ public final class CircunferenciaService {
             "dentro de otro.";
     private static final String NO_EXISTE_INTERSECCION_COMUN_ERROR = "ERROR: Las distancias no se hayan en un solo " +
             "punto.";
-    @Autowired
-    private ObjectMapper mapper;
 
     /**
      * Recibe dos circunferencias y calcula las intersecciones entre estas
@@ -124,25 +117,23 @@ public final class CircunferenciaService {
      * @return una respuesta de trilateración que representa las coordenadas del punto final.
      * @throws NoExisteInterseccionComunException si no se encuentra una intersección común entre las circunferencias.
      */
-    public TrilateracionResponse encontrarPuntoFinal(TrilateracionRequest request) {
-        List<Circunferencia> circunferencias = request.satelites().stream().map(satelite ->
-                mapper.convertValue(satelite, Circunferencia.class)).collect(Collectors.toList());
+    public Coordenada encontrarPuntoFinal(Circunferencia c1, Circunferencia c2, Circunferencia c3) {
 
-        List<Coordenada> interseccionesDosUno = calcularInterseccion(circunferencias.get(1), circunferencias.get(0));
-        List<Coordenada> interseccionesTresUno = calcularInterseccion(circunferencias.get(2), circunferencias.get(0));
-        List<Coordenada> interseccionesTresDos = calcularInterseccion(circunferencias.get(2), circunferencias.get(1));
+        List<Coordenada> interseccionesDosUno = calcularInterseccion(c2, c1);
+        List<Coordenada> interseccionesTresUno = calcularInterseccion(c3, c1);
+        List<Coordenada> interseccionesTresDos = calcularInterseccion(c3, c2);
 
         Optional<Coordenada> candidato = Optional.empty();
         for (Coordenada c : interseccionesDosUno) {
             if (interseccionesTresUno.contains(c) && interseccionesTresDos.contains(c)) {
                 candidato = Optional.of(c);
+                break;
             }
         }
         if (candidato.isEmpty()) {
             throw new NoExisteInterseccionComunException(NO_EXISTE_INTERSECCION_COMUN_ERROR);
         }
-        return mapper.convertValue(candidato.get(), TrilateracionResponse.class);
+
+        return candidato.get();
     }
-
-
 }

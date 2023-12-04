@@ -1,6 +1,7 @@
 package com.poo.trilateracion.dto;
 
 import java.util.List;
+
 /**
  * Record que representa una request de mensajes, incluyendo tres listas de String correspondientes a tres mensajes.
  *
